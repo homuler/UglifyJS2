@@ -104,6 +104,10 @@ exports.minify = function(files, options) {
 
     // 4. mangle
     if (options.mangle) {
+        if (!options.mangle.hasOwnProperty('keep_fnames')
+            && options.compress && options.compress.keep_fnames) {
+          UglifyJS.merge(options.mangle, { keep_fnames: options.compress.keep_fnames });
+        }
         toplevel.figure_out_scope(options.mangle);
         toplevel.compute_char_frequency(options.mangle);
         toplevel.mangle_names(options.mangle);
